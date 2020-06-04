@@ -82,10 +82,14 @@ def create():
 @app.route("/channels/<channel>", methods=['GET', 'POST'])
 @login_required
 def channel(channel):
+    """ Show channels page to send and recieve messages"""
 
-    return render_template("index.html", channels=channelsCreated)
+    # Update user current Channel
+    session['current_channel'] = channel
 
-else:
-    return redirect("/")
-else:
-    return render_template("channel.html")        
+    if request.method == "POST":
+
+        return redirect("/")
+    else:
+        return render_template("channel.html", channels=channelsCreated, messages=channelsMessages[Channel])
+           
