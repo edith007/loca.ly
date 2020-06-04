@@ -58,9 +58,11 @@ def signin():
     else:
         return render_template("signin.html")
 
-@app.route("/create", method=['POST'])
+@app.route("/create", method=['GET','POST'])
 def create():
+    """ Create a channel and redirect to its page"""
 
+    # Get channel name from form
     newChannel = request.form.get("channel")
 
      if request.method == "POST":
@@ -71,6 +73,8 @@ def create():
         # Add channel to global list of channels
         channelsCreated.append(newChannel)
 
+        #Add channel to global Dictionary of channel with channelsMessages
+        # Every channel is a deque to use popleft() method
         channelsMessages[newChannel] = deque()
 
         return redirect("/channels/" + newChannel)
@@ -92,4 +96,3 @@ def channel(channel):
         return redirect("/")
     else:
         return render_template("channel.html", channels=channelsCreated, messages=channelsMessages[Channel])
-           
