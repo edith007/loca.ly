@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<h4>Enter your username and sign in to start chatting!</h4>
+<h4>Enter your username and submit to start chatting!</h4>
 <form action="/signin" method="POST">
     <div class="form-group">
         <input type="text" class="form-control" id="username" name="username" autofocus aria-describedby="userHelp">
@@ -14,5 +14,17 @@
     </div>
     <button class="btn btn-primary" type="submit">Sign In</button>
 </form>
+
+<!--    <script type="text/javascript">
+        if (localStorage.getItem('username'))
+            window.location = "/";
+        // Load value submitted on form
+        document.addEventListener('submit', () => {
+            let username = document.querySelector('#username').value
+            // Save username on localstorage
+            localStorage.setItem('username', username);
+        });
+    </script>
+-->
 
 {% endblock %}

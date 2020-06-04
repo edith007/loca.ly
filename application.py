@@ -43,15 +43,49 @@ def signin():
             return render_template("error.html", message="username can't be empty.")
 
         if username in usersLogged:
-            return render_template("error.html")
+            return render_template("error.html", message ="that username already exists!")
 
         usersLogged.append(username)
 
         session['username'] = Username
 
+        # Remember the user session on a cookie if the browser if closed.
         session.permanent = True
 
+        # if anything goes wrong redirect to the default route
         return redirect("/")
 
     else:
-        return render_template("signin.html")            
+        return render_template("signin.html")
+
+@app.route("/create", method=['POST'])
+def create():
+
+    newChannel = request.form.get("channel")
+
+     if request.method == "POST":
+
+        if newChannel in channelsCreated:
+            return render_template("error.html", message="that channel already exists!")
+
+        # Add channel to global list of channels
+        channelsCreated.append(newChannel)
+
+        channelsMessages[newChannel] = deque()
+
+        return redirect("/channels/" + newChannel)
+
+    else:
+
+        return render_template("create.html", channels = channelsCreated)
+
+@app.route("/channels/<channel>", methods=['GET', 'POST'])
+@login_required
+def channel(channel):
+
+    return render_template("index.html", channels=channelsCreated)
+
+else:
+    return redirect("/")
+else:
+    return render_template("channel.html")        
