@@ -1,4 +1,5 @@
 import os
+import time
 
 from collections import deque
 
@@ -70,7 +71,7 @@ def logout():
         session.clear()
 
 
-        return redirect("/")           
+        return redirect("/")
 
 @app.route("/create", methods=['GET','POST'])
 def create():
@@ -110,3 +111,17 @@ def channel(channel):
         return redirect("/")
     else:
         return render_template("channel.html", channels=channelsCreated, messages=channelsMessages[Channel])
+
+@socketio.on("joined", namespace='/')
+def joined():
+    """ Send meaage to announce that user has entered the channel"""
+
+    room = session.get('current_channel')
+
+    join_room(room)
+
+    emit('status', {
+        'userJoined' : session.get('username'),
+        'channel': room,
+        'msg' : session.get('username') + ' has entered the channel'}
+    room=room)
