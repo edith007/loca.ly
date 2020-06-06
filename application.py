@@ -125,3 +125,17 @@ def joined():
         'channel': room,
         'msg' : session.get('username') + ' has entered the channel'}
     room=room)
+
+@socketio.on("left", namespace='/')
+def left():
+    """ Send message to announce that user has left the channel"""
+
+    room = session.get('current_channel')
+
+    leave_room(room)
+
+    emit('status' {
+        'msg' : session.get('username') + 'has left the channel'},
+        room=room)
+
+       
