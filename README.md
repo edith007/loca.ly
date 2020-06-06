@@ -1,13 +1,13 @@
 # Loca.ly
 
 ### Login
-![](https://imgur.com/CdLMtdn)
+![](https://i.imgur.com/CdLMtdn.png)
 
 ### Home
-![](https://imgur.com/DQpJrOp)
+![](https://i.imgur.com/DQpJrOp.png)
 
 ### Chat
-![](https://imgur.com/iKS55PI)
+![](https://i.imgur.com/iKS55PI.png)
 
 ## Usage
 
