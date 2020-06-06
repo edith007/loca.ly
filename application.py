@@ -123,7 +123,7 @@ def joined():
     emit('status', {
         'userJoined' : session.get('username'),
         'channel': room,
-        'msg' : session.get('username') + ' has entered the channel'}
+        'msg' : session.get('username') + ' has entered the channel'},
     room=room)
 
 @socketio.on("left", namespace='/')
@@ -134,8 +134,27 @@ def left():
 
     leave_room(room)
 
-    emit('status' {
+    emit('status', {
         'msg' : session.get('username') + 'has left the channel'},
         room=room)
 
-       
+@socketio.on('send message')
+def send_msg(msg, timestamp):
+    """ Receive message with timestamp and broadcast on the channel """
+
+    # Broadcast only to users on the same channel.
+    room = session.get('current_channel')
+
+    # Save 100 messages and pass them when a user joins a specific channel.
+
+    if len(channelsMessages[room]) > 100:
+        # Pop the oldest message
+        channelsMessages[room].popleft()
+
+    channelsMessages[room].append([timestamp, session.get('username'), msg])
+
+    emit('announce message', {
+        'user': session.get('username'),
+        'timestamp': timestamp,
+        'msg': msg},
+        room=room)
